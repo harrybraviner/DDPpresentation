@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Car Fuel Efficiency Predictor</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Car Fuel Efficiency Predictor">
+  <meta name="author" content="Harry Braviner">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Car Fuel Efficiency Predictor</h1>
+    <h2>Helping car designers predict before they build</h2>
+    <p>Harry Braviner<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>The Motivation</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Building a car is expensive.</li>
+<li>Designers would like to be able to predict the fuel efficiency of a car before building a prototype.</li>
+<li>Customers would like a prediction of fuel efficiency if no measurement is available.</li>
+</ul>
+
+<p>There is a wide range of fuel efficencies in our dataset:</p>
+
+<pre><code class="r">data(mtcars)
+summary(mtcars$mpg)
+</code></pre>
+
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   10.40   15.42   19.20   20.09   22.80   33.90
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>The Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>We will use the <code>mtcars</code> dataset to build our model.</p>
+
+<h3>Pros</h3>
+
+<ul>
+<li>The <code>mtcars</code> dataset is available in standard R installations and contains data for 32 cars.</li>
+<li>It contains data on fuel efficiency, weight, and number of gears (amongst other variables) for each car.</li>
+</ul>
+
+<h3>Cons</h3>
+
+<ul>
+<li>It is from 1974.</li>
+<li>I wasn&#39;t born in 1974.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>The Model</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>We will build a linear regression model predicting mpg from weight, conditioned on the number of gears the car has.
+To illustrate why this conditioning matters, observe the differing coefficients in the following two linear models:</p>
+
+<pre><code class="r">carsG3 &lt;- mtcars[mtcars$gear == 3,]; carsG4 &lt;- mtcars[mtcars$gear == 4,]
+LM3 &lt;- lm(mpg ~ wt, data = carsG3); LM4 &lt;- lm(mpg ~ wt, data = carsG4)
+LM3$coefficients
+</code></pre>
+
+<pre><code>## (Intercept)          wt 
+##   28.395036   -3.156854
+</code></pre>
+
+<pre><code class="r">LM4$coefficients
+</code></pre>
+
+<pre><code>## (Intercept)          wt 
+##   42.492769   -6.863478
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>The App</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>We build the app using the R package <em>shiny</em>, and deployed it at <a href="http://harrybraviner.shinyapps.io/project/">http://harrybraviner.shinyapps.io/project/</a>.</li>
+<li>The app provides a graphical display of the linear model to help the user assess whether the predictor is badly out of sample.</li>
+</ul>
+
+<p><img src="assets/img/appProject.png" alt="Screengrab of the app"></p>
+
+<ul>
+<li>The app has been tested in the Chromium browser, including a mobile version.</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='The Motivation'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='The Data'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='The Model'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='The App'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
